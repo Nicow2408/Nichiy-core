@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планировщик бюджета</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка с балансом -->
+        <header class="header">
+            <h1>💰 Планировщик бюджета</h1>
+            <div class="balance" id="total-balance">0 ₽</div>
+        </header>
+
+        <!-- Сводка по доходам/расходам -->
+        <section class="summary">
+            <div class="summary-item income">
+                <span>Доходы</span>
+                <span id="total-income">0 ₽</span>
+            </div>
+            <div class="summary-item expense">
+                <span>Расходы</span>
+                <span id="total-expense">0 ₽</span>
+            </div>
+        </section>
+
+        <!-- Форма добавления операции -->
+        <form class="transaction-form" id="transaction-form">
+            <input type="text" id="description" placeholder="Описание операции" required>
+            <input type="number" id="amount" placeholder="Сумма" min="1" required>
+            <select id="type">
+                <option value="income">Доход</option>
+                <option value="expense">Расход</option>
+            </select>
+            <select id="category" required>
+                <!-- Категории будут заполняться через JS -->
+            </select>
+            <button type="submit">Добавить</button>
+        </form>
+
+        <!-- Фильтры -->
+        <section class="filters">
+            <h3>Фильтры</h3>
+            <div class="filter-controls">
+                <select id="filter-type">
+                    <option value="all">Все операции</option>
+                    <option value="income">Только доходы</option>
+                    <option value="expense">Только расходы</option>
+                </select>
+                <select id="filter-category">
+                    <option value="all">Все категории</option>
+                </select>
+                <button id="reset-filters">Сбросить фильтры</button>
+            </div>
+        </section>
+
+        <!-- Список операций -->
+        <section class="transactions">
+            <h2>История операций <span id="transactions-count">(0)</span></h2>
+            <ul id="transaction-list"></ul>
+        </section>
+
+        <!-- Статистика по категориям -->
+        <section class="categories-stats">
+            <h2>Статистика по категориям</h2>
+            <div id="categories-list" class="categories-list">
+                <!-- Статистика будет генерироваться через JS -->
+            </div>
+        </section>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
