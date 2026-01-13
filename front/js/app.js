@@ -13,35 +13,25 @@ import {
 } from './modules/transactions.js';
 import { populateCategorySelect, populateCategoryFilter } from './modules/categories.js';
 
-// Глобальные переменные
 let transactionForm, transactionList, totalBalance, totalIncome, totalExpense;
 let categorySelect, typeSelect, filterType, filterCategory, resetFilters, categoriesList, transactionsCount;
 
-// Текущие фильтры
 let currentTypeFilter = 'all';
 let currentCategoryFilter = 'all';
 
-// Инициализация приложения
 function initApp() {
-    console.log('🚀 Приложение инициализировано!');
     
-    // Получаем элементы
     getDOMElements();
     
-    // Инициализируем операции (загружаем из LocalStorage)
     initTransactions();
     
-    // Инициализируем категории
     initCategories();
     
-    // Обновляем интерфейс
     updateUI();
     
-    // Добавляем обработчики событий
     setupEventListeners();
 }
 
-// Получение DOM элементов
 function getDOMElements() {
     transactionForm = document.getElementById('transaction-form');
     transactionList = document.getElementById('transaction-list');
@@ -57,42 +47,21 @@ function getDOMElements() {
     transactionsCount = document.getElementById('transactions-count');
 }
 
-// Инициализация категорий
 function initCategories() {
-    console.log('🎯 Инициализация категорий...');
-    console.log('📋 Текущие опции в select:', categorySelect.innerHTML);
-    
-    // Заполняем категории для формы (по умолчанию расходы)
     populateCategorySelect(categorySelect, 'expense');
     
-    console.log('📋 После заполнения расходов:', categorySelect.innerHTML);
-    
-    // Тестируем смену на доходы
-    console.log('🧪 Тестируем смену на доходы:');
     populateCategorySelect(categorySelect, 'income');
-    console.log('📋 После заполнения доходов:', categorySelect.innerHTML);
-    
-    // Возвращаем обратно на расходы
     populateCategorySelect(categorySelect, 'expense');
-    
-    // Заполняем категории для фильтра
     populateCategoryFilter(filterCategory);
     
-    // Обновляем категории при изменении типа операции
     typeSelect.addEventListener('change', function() {
         const selectedType = this.value;
-        console.log('🔄 Изменен тип операции на:', selectedType);
-        console.log('📋 До изменения:', categorySelect.innerHTML);
         populateCategorySelect(categorySelect, selectedType);
-        console.log('📋 После изменения:', categorySelect.innerHTML);
     });
     
-    console.log('✅ Категории инициализированы');
 }
 
-// Настройка обработчиков событий
 function setupEventListeners() {
-    // Обработчик формы
     transactionForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
@@ -101,7 +70,6 @@ function setupEventListeners() {
         const type = document.getElementById('type').value;
         const category = document.getElementById('category').value;
         
-        // Валидация
         if (!description || !amount) {
             showMessage('Пожалуйста, заполните все поля!', 'error');
             return;
@@ -112,24 +80,19 @@ function setupEventListeners() {
             return;
         }
         
-        // Добавляем операцию
         addTransaction(description, amount, type, category);
         
-        // Обновляем интерфейс
         updateUI();
         
-        // Очищаем форму (но сохраняем тип операции)
         clearForm(transactionForm, type);
         
         showMessage(`Операция "${description}" добавлена!`, 'success');
     });
     
-    // Обработчик удаления
     transactionList.addEventListener('click', function(event) {
         if (event.target.classList.contains('delete-btn')) {
             const transactionId = parseInt(event.target.dataset.id);
             
-            // Удаляем операцию
             const isDeleted = deleteTransaction(transactionId);
             
             if (isDeleted) {
@@ -141,7 +104,6 @@ function setupEventListeners() {
         }
     });
     
-    // Обработчики фильтров
     filterType.addEventListener('change', function() {
         currentTypeFilter = this.value;
         applyFilters();
@@ -162,14 +124,12 @@ function setupEventListeners() {
     });
 }
 
-// Применение фильтров
 function applyFilters() {
     const filteredTransactions = getFilteredTransactions(currentTypeFilter, currentCategoryFilter);
     renderTransactions(filteredTransactions, transactionList);
     updateTransactionsCount(filteredTransactions, transactionsCount);
 }
 
-// Обновление всего интерфейса
 function updateUI() {
     const transactions = getAllTransactions();
     const balance = calculateBalance();
@@ -177,27 +137,21 @@ function updateUI() {
     const expenses = calculateExpenses();
     const stats = getCategoriesStats();
     
-    // Отрисовываем операции
     const filteredTransactions = getFilteredTransactions(currentTypeFilter, currentCategoryFilter);
     renderTransactions(filteredTransactions, transactionList);
     
-    // Обновляем баланс
     updateBalance(balance, totalBalance);
     
-    // Обновляем доходы и расходы
     if (totalIncome && totalExpense) {
         totalIncome.textContent = `${income.toLocaleString('ru-RU')} ₽`;
         totalExpense.textContent = `${expenses.toLocaleString('ru-RU')} ₽`;
     }
     
-    // Обновляем счетчик операций
     updateTransactionsCount(filteredTransactions, transactionsCount);
     
-    // Обновляем статистику категорий
     renderCategoriesStats(stats, categoriesList);
     
     console.log('💰 Финансы - Доходы:', income, 'Расходы:', expenses, 'Баланс:', balance);
 }
 
-// Запуск приложения
 document.addEventListener('DOMContentLoaded', initApp);

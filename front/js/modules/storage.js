@@ -5,7 +5,6 @@ const STORAGE_KEY = 'budget-planner-transactions';
 export function saveTransactions(transactions) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-        console.log('💾 Данные сохранены в LocalStorage');
         return true;
     } catch (error) {
         return false;

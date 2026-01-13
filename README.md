@@ -15,9 +15,3 @@
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+)
 - **Хранение данных:** LocalStorage
 - **Графики:** Chart.js
-
-## 📦 Установка и запуск
-
-1. Клонируйте репозиторий:
-```bash
-git clone https://github.com/ваш-логин/budget-planner.git
