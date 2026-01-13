@@ -1,6 +1,5 @@
 // js/modules/categories.js
 
-// Конфигурация категорий
 export const categoriesConfig = {
     income: [
         { id: 'salary', name: 'Зарплата', color: '#2ecc71', icon: '💼' },
@@ -21,15 +20,10 @@ export const categoriesConfig = {
     ]
 };
 
-// Получить все категории для типа операции
 export function getCategoriesByType(type) {
-    console.log('📋 Запрашиваем категории для типа:', type);
     const categories = categoriesConfig[type] || [];
-    console.log('✅ Найдено категорий:', categories.length);
     return categories;
 }
-
-// Получить категорию по ID
 export function getCategoryById(id) {
     for (const type in categoriesConfig) {
         const category = categoriesConfig[type].find(cat => cat.id === id);
@@ -38,19 +32,14 @@ export function getCategoryById(id) {
     return null;
 }
 
-// Получить все уникальные категории
 export function getAllCategories() {
     return [...categoriesConfig.income, ...categoriesConfig.expense];
 }
 
-// Заполнить select категориями (для формы добавления)
 export function populateCategorySelect(selectElement, type = 'expense') {
-    console.log('🔄 Заполняем SELECT категориями для типа:', type);
     
-    // Очищаем select
     selectElement.innerHTML = '';
-    
-    // Добавляем опцию по умолчанию
+
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'Выберите категорию';
@@ -58,11 +47,8 @@ export function populateCategorySelect(selectElement, type = 'expense') {
     defaultOption.selected = true;
     selectElement.appendChild(defaultOption);
     
-    // Получаем категории для выбранного типа
     const categories = getCategoriesByType(type);
-    console.log('📝 Категории для отображения:', categories.map(c => c.name));
     
-    // Добавляем категории в select
     categories.forEach(category => {
         const option = document.createElement('option');
         option.value = category.id;
@@ -70,13 +56,11 @@ export function populateCategorySelect(selectElement, type = 'expense') {
         selectElement.appendChild(option);
     });
     
-    // Обновляем стили
     updateCategoryStyles(selectElement, type);
 }
 
-// Заполнить select фильтра категорий (для фильтров - все категории)
 export function populateCategoryFilter(selectElement) {
-    console.log('🔍 Заполняем FILTER категориями');
+
     
     selectElement.innerHTML = '<option value="all">Все категории</option>';
     
@@ -90,7 +74,6 @@ export function populateCategoryFilter(selectElement) {
     });
 }
 
-// Обновить стили поля категории
 export function updateCategoryStyles(selectElement, type) {
     selectElement.classList.remove('income-category', 'expense-category');
     
@@ -102,11 +85,8 @@ export function updateCategoryStyles(selectElement, type) {
         selectElement.title = 'Категории расходов';
     }
     
-    console.log('🎨 Обновлены стили для типа:', type);
 }
 
-// Управление категориями при изменении типа операции
 export function handleTypeChange(type, categorySelect) {
-    console.log('🎯 Обрабатываем изменение типа на:', type);
     populateCategorySelect(categorySelect, type);
 }

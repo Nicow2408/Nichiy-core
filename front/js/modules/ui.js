@@ -1,7 +1,6 @@
 // js/modules/ui.js
 import { getCategoryById } from './categories.js';
 
-// Функция для отрисовки одной операции
 export function renderTransaction(transaction, listElement) {
     const category = getCategoryById(transaction.category);
     const li = document.createElement('li');
@@ -20,7 +19,6 @@ export function renderTransaction(transaction, listElement) {
     listElement.appendChild(li);
 }
 
-// Функция для отрисовки всех операций
 export function renderTransactions(transactions, listElement) {
     listElement.innerHTML = '';
     
@@ -34,7 +32,6 @@ export function renderTransactions(transactions, listElement) {
     });
 }
 
-// Функция для обновления баланса
 export function updateBalance(balance, balanceElement) {
     balanceElement.textContent = `${balance.toLocaleString('ru-RU')} ₽`;
     
@@ -47,7 +44,6 @@ export function updateBalance(balance, balanceElement) {
     }
 }
 
-// Функция для отображения статистики категорий
 export function renderCategoriesStats(stats, containerElement) {
     if (Object.keys(stats).length === 0) {
         containerElement.innerHTML = '<div class="no-stats">Нет данных для статистики</div>';
@@ -81,32 +77,25 @@ export function renderCategoriesStats(stats, containerElement) {
     containerElement.innerHTML = html;
 }
 
-// Функция для обновления счетчика операций
 export function updateTransactionsCount(transactions, countElement) {
     countElement.textContent = `(${transactions.length})`;
 }
 
-// Функция для очистки формы (с сохранением типа операции)
 export function clearForm(form, preserveType = null) {
     if (preserveType) {
-        // Сохраняем текущий тип операции
         const typeSelect = form.querySelector('#type');
         const currentType = typeSelect.value;
         
-        // Сбрасываем форму
         form.reset();
         
-        // Восстанавливаем тип операции
         typeSelect.value = currentType;
         
-        // Обновляем поле категории
         const categorySelect = form.querySelector('#category');
         if (window.updateCategoryField) {
             window.updateCategoryField(currentType, categorySelect);
         }
     } else {
         form.reset();
-        // Обновляем поле категории для расхода по умолчанию
         const categorySelect = form.querySelector('#category');
         if (window.updateCategoryField) {
             window.updateCategoryField('expense', categorySelect);
@@ -114,7 +103,6 @@ export function clearForm(form, preserveType = null) {
     }
 }
 
-// Функция для показа уведомления
 export function showMessage(message, type = 'info') {
     const existingMessages = document.querySelectorAll('.message');
     existingMessages.forEach(msg => msg.remove());
@@ -150,13 +138,11 @@ export function showMessage(message, type = 'info') {
     }, 3000);
 }
 
-// Вспомогательные функции для расчета процентов
+
 function calculateTotalIncome() {
-    // Эта функция будет заменена при интеграции с transactions.js
-    return 1; // Заглушка
+    return 1; 
 }
 
 function calculateTotalExpenses() {
-    // Эта функция будет заменена при интеграции с transactions.js
-    return 1; // Заглушка
+    return 1;
 }
